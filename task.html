@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * {
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Georgia, serif;
+    }
+
+    body {
+      height:100vh;
+      background:linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+    .box {
+      width:330px;
+      padding:25px;
+      background:#0093FF;
+      border-radius:35px;
+      border:5px solid #0009FF;
+      box-shadow:0 15px 30px rgba(0,0,0,0.6);
+    }
+
+    .box input,
+    .box textarea {
+      width:100%;
+      padding:10px;
+      margin-top:20px;
+      border-radius:15px;
+      border:4px solid #00FF9C;
+      outline:none;
+      font-size:14px;
+    }
+
+    .box input:focus,
+    .box textarea:focus {
+      border-color:#fff;
+      background:#f0fffb;
+    }
+
+    .box textarea {
+      resize:none;
+      height:100px;
+    }
+
+    #btn {
+      margin-top:20px;
+      height:50px;
+      width:120px;
+      background:#00FF9C;
+      border:4px solid #0009FF;
+      border-radius:30px;
+      font-size:16px;
+      cursor:pointer;
+      transition:0.3s;
+    }
+
+    #btn:hover {
+      background:#00e68a;
+      transform:scale(1.05);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box">
+    <input type="text" id="text" placeholder="Enter your task name">
+
+    <textarea
+      id="reason"
+      placeholder="Why are you doing this task? (optional)">
+    </textarea>
+
+    <button id="btn">Save</button>
+  </div>
+
+  <script>
+    let text = document.getElementById("text");
+    let reason = document.getElementById("reason");
+    let btn = document.getElementById("btn");
+
+    btn.addEventListener("click", () => {
+      let task = text.value.trim();
+      let why = reason.value.trim();
+
+      if (task === "") {
+        alert("Enter your task name");
+        return;
+      }
+
+      let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+      tasks.push({
+        name: task,
+        reason: why
+      });
+
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+      window.location.href = "index.html";
+    });
+  </script>
+
+</body>
+</html>

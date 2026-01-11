@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+  * {
+    margin:0;
+    padding:0;
+  }
+  body {
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(to right , #00FFF8 , #18FF00);
+  }
+  .box {
+position:relative;
+height:300px;
+width:300px;
+background:linear-gradient(to left , #00D , #AA03FF);
+border:5px solid #FFF;
+border-top:5px solid #FF0303;
+border-left:5px solid #42445A;
+border-right:5px solid green;
+border-radius:30px;
+}
+#time {
+  position:absolute;
+  top:70px;
+  left:70px;
+  font-size:30px;
+}
+#btn {
+  position:absolute;
+  height:60px;
+  width:90px;
+  top:210px;
+  left:100px;
+  border-radius:30px;
+  border:5px solid #0009FF;
+  background:#00FF9C;
+}
+#btn2 {
+  position:absolute;
+  height:60px;
+  width:90px;
+  top:210px;
+  left:60px;
+  border-radius:30px;
+  border:5px solid #0009FF;
+  background:#00FF9C;
+}
+#btn3 {
+  position:absolute;
+  height:60px;
+  width:90px;
+  top:210px;
+  left:150px;
+  border-radius:30px;
+  border:5px solid #0009FF;
+  background:#00FF9C;
+}
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2 id="time">Timer : 0 </h2>
+    <button id="btn">Start</button>
+    <button id="btn2">restart</button>
+    <button id="btn3">pause</button>
+  </div>
+  <script>
+  let time = document.getElementById("time");
+  let btn = document.getElementById("btn");   // start
+  let btn2 = document.getElementById("btn2"); // restart
+  let btn3 = document.getElementById("btn3"); // pause
+
+  let i = 0;
+  let timerId = null;
+  let running = false;
+
+  // hide buttons initially
+  btn2.style.display = "none";
+  btn3.style.display = "none";
+
+  function run() {
+    if (!running) return;
+
+    time.innerText = "Timer : " + i + " sec";
+    i++;
+    timerId = setTimeout(run, 1000);
+  }
+
+  // START
+  btn.addEventListener("click", () => {
+    if (running) return;
+    running = true;
+
+    btn.style.display = "none";
+    btn2.style.display = "block";
+    btn3.style.display = "block";
+
+    run();
+  });
+
+  // PAUSE → popup + store
+  btn3.addEventListener("click", () => {
+    let reason = prompt("Write reason why are you pause? (Write reason)");
+
+    if (reason && reason.trim() !== "") {
+      let data = JSON.parse(localStorage.getItem("reasons")) || [];
+      data.push({
+        reason: reason,
+        time: i + " sec"
+      });
+
+      localStorage.setItem("reasons", JSON.stringify(data));
+      window.location.href = "reason.html";
+    }
+  });
+
+  // RESTART (timer reset but chalu hi rahe)
+  btn2.addEventListener("click", () => {
+    i = 0;
+  });
+</script>
+</body>
+</html>

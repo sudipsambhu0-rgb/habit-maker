@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pause Reasons</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #111;
+      color: white;
+      padding: 20px;
+    }
+    .box {
+      background: #222;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: none;
+      background: red;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Pause Reasons</h2>
+<div id="list"></div>
+<button onclick="clearAll()">Delete All</button>
+
+<script>
+  let list = document.getElementById("list");
+  let data = JSON.parse(localStorage.getItem("reasons")) || [];
+
+  data.forEach(item => {
+    let div = document.createElement("div");
+    div.className = "box";
+    div.innerHTML = `
+      <p><b>Reason:</b> ${item.reason}</p>
+      <p><b>Time:</b> ${item.time}</p>
+    `;
+    list.appendChild(div);
+  });
+
+  function clearAll() {
+    localStorage.removeItem("reasons");
+    location.reload();
+  }
+</script>
+
+</body>
+</html>
